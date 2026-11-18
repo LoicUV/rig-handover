@@ -19,6 +19,13 @@ Read first: `docs/vision.md`, `docs/styleguide.md`. Decisions: `docs/adr/`.
    `docs/issues/` (ADR 0004).
 3. Issues are worked by workers, one issue per worker, each on its own branch or worktree.
    Pick the model per issue: the strongest for logic, a cheaper one for views and tests.
+   Every issue carries (decided by the human, S01E04):
+   - First line: `Source: plan.md § <n>` (the plan section it comes from).
+   - Label: `plan:morning-digest` (the plan's name: `plan:<plan name>`).
+   - Sections, in this order: `## Scope`, `## Done when` (checkable), `## Blocked by` (real
+     issue numbers, or `none`), `## Model hint` (strongest model for logic, cheaper for views and tests).
+   - Close with the closing comment below. Never put `Closes #n` in a commit message: it closes
+     the issue on push without that comment. Use `Refs #n`.
 4. A worker closes its issue with a closing comment, exactly this shape:
 
    ```
