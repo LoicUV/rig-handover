@@ -77,3 +77,8 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Issues
+
+- #1 Digest types · #2 Run log reader · #3 Digest page · #4 Digest JSON · #5 Board links · #6 Route tests · #7 Preview · #8 Clean up
+- https://github.com/LoicUV/rig-handover/issues?q=label%3Aplan%3Amorning-digest
