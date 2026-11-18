@@ -1,7 +1,9 @@
 import { Hono } from 'hono';
 import { loadConfig, type RigConfig } from './config.js';
 import { lane } from './lane.js';
+import { readNight } from './digest/read.js';
 import { readStatus } from './status.js';
+import { Digest } from './views/digest.js';
 import { Layout } from './views/layout.js';
 import { StatusBoard } from './views/status.js';
 
@@ -10,6 +12,13 @@ export function createApp(config: RigConfig = loadConfig()) {
 
   app.get('/health', (c) => c.json({ ok: true, lane: lane().id }));
 
+  app.get('/api/digest/:night', (c) => {
+    const night = c.req.param('night');
+    const found = readNight(config.runsDir, night);
+    if (!found) return c.json({ error: 'no such night' }, 404);
+    return c.json({ night, rows: found.rows, badLines: found.badLines });
+  });
+
   app.get('/', (c) =>
     c.html(
       <Layout title="status" lane={lane()}>
@@ -17,6 +26,17 @@ export function createApp(config: RigConfig = loadConfig()) {
       </Layout>,
     ),
   );
+
+  app.get('/digest/:night', (c) => {
+    const night = c.req.param('night');
+    const found = readNight(config.runsDir, night);
+    if (!found) return c.notFound();
+    return c.html(
+      <Layout title={`digest ${night}`} lane={lane()}>
+        <Digest night={night} rows={found.rows} />
+      </Layout>,
+    );
+  });
 
   return app;
 }
